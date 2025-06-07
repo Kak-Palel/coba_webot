@@ -1,0 +1,175 @@
+#VRML_SIM R2025a utf8
+PROTO robotDifferential [
+  field SFVec3f    translation  0 0 0.04
+  field SFRotation rotation     0 0 1 0
+  field SFFloat    bodyMass     1
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    children [
+      DEF BODY Shape {
+        appearance PBRAppearance {
+          baseColor 0.917647 0.145098 0.145098
+          roughness 1
+          metalness 0
+        }
+        geometry Cylinder {
+          bottom TRUE
+          height 0.075
+          radius 0.1
+          side TRUE
+          top TRUE
+          subdivision 8
+        }
+      }
+      DEF WHEEL1 HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor 0.0 0.1 0
+        }
+        device [
+          RotationalMotor {
+            name "wheel1"
+          }
+        ]
+        endPoint Solid {
+          translation 0.0 0.1 0
+          rotation 1 0 0 1.5708
+          children [
+            DEF WHEEL Shape {
+              appearance PBRAppearance {
+                baseColor 0.305882 0.898039 0.25098
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.02
+                radius 0.04
+                subdivision 24
+              }
+            }
+          ]
+          boundingObject USE WHEEL
+          physics Physics {
+          }
+        }
+      }
+      DEF WHEEL2 HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor 0.0 -0.1 0
+        }
+        device [
+          RotationalMotor {
+            name "wheel2"
+          }
+        ]
+        endPoint Solid {
+          translation 0.0 -0.1 0
+          rotation 1 0 0 1.5708
+          children [
+            USE WHEEL
+          ]
+          name "solid(1)"
+          boundingObject USE WHEEL
+          physics Physics {
+          }
+        }
+      }
+      DEF FREE_WHEEL Hinge2Joint {
+        jointParameters HingeJointParameters {
+          axis 0 0 1
+          anchor 0.1 0.0 0
+        }
+        jointParameters2 JointParameters {
+          axis 0 1 0
+        }
+        device2 []
+        endPoint Solid {
+          translation 0.05 0.0 0
+          rotation 1 0 0 1.5708
+          children [
+            DEF WHEEL_SMALL Shape {
+            appearance PBRAppearance {
+              baseColor 0.305882 0.898039 0.25098
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.04
+              subdivision 24
+            }
+          }
+          ]
+          name "free_wheel"
+          boundingObject USE WHEEL_SMALL
+          physics Physics {
+          }
+        }
+      }
+      DEF DS_RIGHT DistanceSensor {
+        lookupTable [ 0 0 0 , 20 20 0 ]
+        translation 0.0 -0.1 0
+        rotation 0 0 1 -1.5708
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.184314 0.596078 0.847059
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.01 0.01 0.01
+            }
+          }
+        ]
+        name "ds_right"
+      }
+      DEF DS_LEFT DistanceSensor {
+        lookupTable [ 0 0 0 , 20 20 0 ]
+        translation 0.0 0.1 0
+        rotation 0 0 1 1.5708
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.184314 0.596078 0.847059
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.01 0.01 0.01
+            }
+          }
+        ]
+        name "ds_left"
+      }
+      DEF DS_FRONT DistanceSensor {
+        lookupTable [ 0 0 0 , 20 20 0 ]
+        translation 0.1 0.0 0
+        rotation 0 0 1 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.184314 0.596078 0.847059
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.01 0.01 0.01
+            }
+          }
+        ]
+        name "ds_front"
+      }
+    ]
+    boundingObject USE BODY
+    physics Physics {
+      density -1
+      mass IS bodyMass
+    }
+    controller "my_controller"
+  }
+}
