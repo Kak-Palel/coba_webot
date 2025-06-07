@@ -111,7 +111,7 @@ PROTO robotDifferential [
         }
       }
       DEF DS_RIGHT DistanceSensor {
-        lookupTable [ 0 0 0 , 20 20 0 ]
+        lookupTable [ 0 0 0 , 100 100 0 ]
         translation 0.0 -0.1 0
         rotation 0 0 1 -1.5708
         children [
@@ -129,7 +129,7 @@ PROTO robotDifferential [
         name "ds_right"
       }
       DEF DS_LEFT DistanceSensor {
-        lookupTable [ 0 0 0 , 20 20 0 ]
+        lookupTable [ 0 0 0 , 100 100 0 ]
         translation 0.0 0.1 0
         rotation 0 0 1 1.5708
         children [
@@ -147,7 +147,7 @@ PROTO robotDifferential [
         name "ds_left"
       }
       DEF DS_FRONT DistanceSensor {
-        lookupTable [ 0 0 0 , 20 20 0 ]
+        lookupTable [ 0 0 0 , 100 100 0 ]
         translation 0.1 0.0 0
         rotation 0 0 1 0
         children [
